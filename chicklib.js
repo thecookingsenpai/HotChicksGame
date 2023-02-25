@@ -177,9 +177,8 @@ async function getUserChickens(address_target=address)  {
 }
 
 // Get the user's balance of tokens
-async function getBalance() {
-  const account = await getUserAccount();
-  const balance = await ChickCoin.getBalance(account);
+async function getBalance(address_target=address) {
+  const balance = await ChickCoin.getBalance(address_target);
   console.log("Balance: " + balance.toString());
   // Update UI
   coinBalance.innerHTML = balance.toString();
