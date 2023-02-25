@@ -27,35 +27,43 @@ window.addEventListener("load", async () => {
 });
 
 // Start the watchdog
+console.log("Watchdog started");
 watchdog();
 
 // ANCHOR Watchdog
 
 var lockWatchdog = false;
+var killWatchdog = false;
 async function watchdog() {
-  if (lockWatchdog) {
-    return;
-  }
-  lockWatchdog = true;
-  // Connection status checker
-  if (provider) {
-    var newNetwork = await provider.getNetwork();
-    if (newNetwork.chainId != network.chainId) {
-      disconnect();
-      Swal.fire({
-        title: 'Error!',
-        text: 'Please switch to any of the supported networks: ' + supportedNetworks.join(', '),
-        icon: 'error',
-        confirmButtonText: 'Ok, cool'
-      })
+  while (true) {
+    if (killWatchdog) {
+      console.log("Watchdog killed");
       return;
     }
-    // If network is supported, and if we are connected, update informations
-    await getUserChickens();
-  }
+    if (lockWatchdog) {
+      return;
+    }
+    lockWatchdog = true;
+    // Connection status checker
+    if (provider) {
+      var newNetwork = await provider.getNetwork();
+      if (newNetwork.chainId != network.chainId) {
+        disconnect();
+        Swal.fire({
+          title: 'Error!',
+          text: 'Please switch to any of the supported networks: ' + supportedNetworks.join(', '),
+          icon: 'error',
+          confirmButtonText: 'Ok, cool'
+        })
+        return;
+      }
+      // If network is supported, and if we are connected, update informations
+      await getUserChickens();
+    }
 
-  await sleep(1000);
-  lockWatchdog = false;
+    await sleep(1000);
+    lockWatchdog = false;
+  }
 }
 
 // ANCHOR Helpers
