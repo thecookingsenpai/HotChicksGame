@@ -213,7 +213,7 @@ async function purchaseChicken() {
   const chickenfee = await HotChicks.getChickenFee();
   const devfee = await HotChicks.developerFee();
 
-  let fee = chickenfee + devfee;
+  let fee = chickenfee.add(devfee);
 
   console.log("Fee: " + fee.toString());
   const transaction = await HotChicks.becomeChicken(name, surname,{
