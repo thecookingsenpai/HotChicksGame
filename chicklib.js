@@ -1,4 +1,3 @@
-import { ethers } from "ethers";
 
 console.log("ChickCoinContract", ChickCoinContract);
 
