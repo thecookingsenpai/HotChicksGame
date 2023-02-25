@@ -81,11 +81,14 @@ async function connect() {
 }
 
 // Get the user's Ethereum account from MetaMask
-async function getUserAccount() {
-  await window.ethereum.request({ method: "eth_requestAccounts" });
-  const accounts = await window.ethereum.request({ method: "eth_accounts" });
-  return accounts[0];
+async function getUserChickens() {
+  var chickens = await ChickCoin.userChickens();
+  console.log("Chickens for user " + address + ": ");
+  console.log(chickens);
+  return chickens;
 }
+
+// ANCHOR Contract Methods
 
 // Get the user's balance of tokens
 async function getBalance() {
