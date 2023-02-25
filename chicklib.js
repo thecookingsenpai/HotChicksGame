@@ -199,6 +199,8 @@ async function purchaseChicken() {
   var name = names[Math.floor(Math.random() * names.length)];
   var surname = names[Math.floor(Math.random() * names.length)];
 
+  console.log("Purchasing chicken with name " + name + " " + surname);
+
   if (!provider) {
     Swal.fire({
       title: 'Error!',
@@ -209,6 +211,7 @@ async function purchaseChicken() {
     return;
   }
   const fee = await HotChicks.getChickenFee();
+  console.log("Fee: " + fee.toString());
   const transaction = await HotChicks.becomeChicken(name, surname,{
     value: fee
   });
