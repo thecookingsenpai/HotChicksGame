@@ -5,6 +5,7 @@ const contractAddress = "0x3e4551375325627806afCfF31a3A88697f83cC55"; // Use you
 var ChickCoin;
 var provider;
 var signer;
+var address;
 
 // Load components
 window.addEventListener("load", async () => {
@@ -21,6 +22,7 @@ async function connect() {
   // Prompt user for account connections
   await provider.send("eth_requestAccounts", []);
   signer = provider.getSigner();
+  address = await signer.getAddress();
   console.log("Connected to provider");
   console.log(provider);
   console.log(signer);
