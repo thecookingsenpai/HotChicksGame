@@ -61,6 +61,7 @@ async function watchdog() {
         return;
       }
       // If network is supported, and if we are connected, update informations
+      console.log("Updating informations");
       await getUserChickens();
     }
 
