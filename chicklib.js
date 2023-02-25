@@ -22,6 +22,32 @@ window.addEventListener("load", async () => {
   var addressString = document.getElementById("addressString");
 });
 
+// ANCHOR Watchdog
+
+async function watchdog() {
+  if (provider) {
+    var newNetwork = await provider.getNetwork();
+    if (newNetwork.chainId != network.chainId) {
+      disconnect();
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please switch to any of the supported networks: ' + supportedNetworks.join(', '),
+        icon: 'error',
+        confirmButtonText: 'Ok, cool'
+      })
+    }
+  }
+
+  await sleep(1000);
+}
+
+// ANCHOR Helpers
+
+// Sleep for the specified number of milliseconds
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // ANCHOR Methods
 
 async function metamask() {
