@@ -1,6 +1,16 @@
 
 console.log("HotChicksContract", HotChicksContract);
 
+// NOTE Basic chicken box
+var ChickenPrototype = `
+<div class="chicken" id=chicken_[ID]>
+  <div class="chicken-name">[NAME]</div>
+  <div class="chicken-attribute">Rarity: [RARITY]</div>
+  <div class="chicken-attribute">Health: [HEALTH]/100</div>
+  <a href="#" class="power-up">Use Power-Up</a>
+  <a href="#" class="transfer">Transfer Chicken</a>
+</div> `
+
 // ANCHOR Names
 
 // Common names
@@ -23,6 +33,7 @@ var addressString;
 var coinBalance;
 var chickenBalance;
 var buyChickenButton;
+var chickenBox;
 
 var supportedNetworks = [80001]
 
@@ -30,6 +41,8 @@ var supportedNetworks = [80001]
 
 // Load components
 window.addEventListener("load", async () => {
+  // Load the chicken box
+  chickenBox = document.getElementById("chickenBox");
   // Load the buy chicken button
   buyChickenButton = document.getElementById("buyChickenButton");
   buyChickenButton.addEventListener("click", async () => {
@@ -168,6 +181,8 @@ async function connect() {
 
 // Get the user's Ethereum account from MetaMask
 async function getUserChickens(address_target=address)  {
+  // Clean the UI
+  chickenBox.innerHTML = "";
   console.log("Getting chickens for user " + address_target);
   ownedChickens = await HotChicks.getPlayerChickens(address_target);
   console.log("Chickens for user " + address_target + ": ");
@@ -181,6 +196,22 @@ async function getUserChickens(address_target=address)  {
     var _chicken = await HotChicks.allChickens(decimalId);
     console.log("Chicken " + decimalId + ": ");
     console.log(_chicken);
+    // Get the needed data
+    let name = _chicken[7];
+    let surname = _chicken[8];
+    let rarityHex = _chicken[2]._hex;
+    let rarityDecimal = parseInt(rarityHex, 16);
+    let powerUpsHex = _chicken[5]._hex;
+    let powerUpsDecimal = parseInt(powerUpsHex, 16);
+    // Fill the UI
+    let chickenPrototypeCompiled = ChickenPrototype;
+    chickenPrototypeCompiled = chickenPrototypeCompiled.replace("[ID]", decimalId);
+    chickenPrototypeCompiled = chickenPrototypeCompiled.replace("[NAME]", name);
+    chickenPrototypeCompiled = chickenPrototypeCompiled.replace("[SURNAME]", surname);
+    chickenPrototypeCompiled = chickenPrototypeCompiled.replace("[RARITY]", rarityDecimal);
+    chickenPrototypeCompiled = chickenPrototypeCompiled.replace("[POWERUPS]", powerUpsDecimal);
+    // Append the chicken to the UI
+    chickenBox.innerHTML += chickenPrototypeCompiled;
   }
   return ownedChickens;
 }
