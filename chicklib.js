@@ -11,7 +11,7 @@ var ChickenPrototype = `
   <a href="#" class="transfer">Transfer Chicken</a>
 </div> `
 
-const contractAddress = "0x0bc18E6c728f782FD4D7e7E8F7EbB557B4078d7d"; // Use your own contract address
+const contractAddress = "0x48F9b2f3F89cf10508132a17846206D26aa2DdB4"; // Use your own contract address
 var HotChicks;
 var provider = null;
 var signer;
