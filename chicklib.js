@@ -178,8 +178,8 @@ async function getUserChickens(address_target=address)  {
   for (var i = 1; i <= ownedChickens.length; i++) {
     let numericId = ownedChickens[i-1]._hex;
     let decimalId = parseInt(numericId, 16);
-    var _chicken = await HotChicks.allChickens(ownedChickens[i-1]);
-    console.log("Chicken " + i + ": ");
+    var _chicken = await HotChicks.allChickens(decimalId);
+    console.log("Chicken " + decimalId + ": ");
     console.log(_chicken);
   }
   return ownedChickens;
