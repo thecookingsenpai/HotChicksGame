@@ -6,6 +6,15 @@ var ChickCoin;
 var provider;
 var signer;
 
+// Load components
+window.addEventListener("load", async () => {
+  var connectionButton = document.getElementById("connectionButton");
+  connectionButton.addEventListener("click", async () => {
+    await connect();
+    console.log("Connected to provider");
+  });
+});
+
 async function connect() {
   provider = new ethers.providers.Web3Provider(window.ethereum);
   signer = provider.getSigner();
