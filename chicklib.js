@@ -19,6 +19,7 @@ window.addEventListener("load", async () => {
     await connect();
     console.log("Connected to provider");
   });
+  var addressString = document.getElementById("addressString");
 });
 
 // ANCHOR Methods
@@ -39,6 +40,7 @@ async function connect() {
       confirmButtonText: 'Ok, cool'
     })
   }
+  // Get signer and address
   signer = provider.getSigner();
   address = await signer.getAddress();
   console.log("Connected to provider");
@@ -52,6 +54,11 @@ async function connect() {
   );
   console.log("Connected to contract");
   console.log(ChickCoin);
+  // Update UI
+  connectionButton.innerHTML = "Disconnect";
+  addressString.innerHTML = address;
+  addressString.style.display = "block";
+  addressString.style.fontWeight = "bold";
 }
 
 // Get the user's Ethereum account from MetaMask
