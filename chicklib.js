@@ -16,7 +16,10 @@ window.addEventListener("load", async () => {
 });
 
 async function connect() {
-  provider = new ethers.providers.Web3Provider(window.ethereum);
+  // Connect to the MetaMask Ethereum provider asking for access to the user's accounts
+  provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+  // Prompt user for account connections
+  await provider.send("eth_requestAccounts", []);
   signer = provider.getSigner();
   console.log("Connected to provider");
   console.log(provider);
@@ -24,9 +27,8 @@ async function connect() {
   ChickCoin = new ethers.Contract(
     contractAddress,
     ChickCoinContract.abi,
-    provider
+    signer
   );
-  ChickCoin.connect(signer);
   console.log("Connected to contract");
   console.log(ChickCoin);
 }
