@@ -14,6 +14,8 @@ var ownedChickens = [];
 // ANCHOR UI Elements
 var connectionButton;
 var addressString;
+var coinBalance 
+var chickenBalance;
 
 var supportedNetworks = [80001]
 
@@ -21,6 +23,10 @@ var supportedNetworks = [80001]
 
 // Load components
 window.addEventListener("load", async () => {
+  // Load balances
+  coinBalance = document.getElementById("coinBalance");
+  chickenBalance = document.getElementById("chickenBalance");
+  // Load the connection buttons and address string
   connectionButton = document.getElementById("connectionButton");
   connectionButton.addEventListener("click", async () => {
     await metamask();
@@ -64,6 +70,7 @@ async function watchdog() {
         // If network is supported, and if we are connected, update informations
         console.log("Updating informations");
         await getUserChickens();
+        await getBalance();
       }
     } catch (error) {
       console.log(error);
@@ -164,6 +171,8 @@ async function getUserChickens(address_target=address)  {
   }
   console.log("Chickens for user " + address_target + ": ");
   console.log(ownedChickens);
+  // Update UI
+  chickenBalance.innerHTML = ownedChickens.length;
   return ownedChickens;
 }
 
@@ -171,6 +180,9 @@ async function getUserChickens(address_target=address)  {
 async function getBalance() {
   const account = await getUserAccount();
   const balance = await ChickCoin.getBalance(account);
+  console.log("Balance: " + balance.toString());
+  // Update UI
+  coinBalance.innerHTML = balance.toString();
   return balance.toString();
 }
 
