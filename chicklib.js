@@ -22,6 +22,9 @@ window.addEventListener("load", async () => {
   var addressString = document.getElementById("addressString");
 });
 
+// Start the watchdog
+watchdog();
+
 // ANCHOR Watchdog
 
 var lockWatchdog = false;
