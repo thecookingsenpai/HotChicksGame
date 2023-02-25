@@ -10,11 +10,12 @@ var network;
 
 // ANCHOR Statuses
 var ownedChickens = [];
+var ownedCoins = 0;
 
 // ANCHOR UI Elements
 var connectionButton;
 var addressString;
-var coinBalance 
+var coinBalance;
 var chickenBalance;
 
 var supportedNetworks = [80001]
@@ -179,11 +180,11 @@ async function getUserChickens(address_target=address)  {
 // Get the user's balance of tokens
 async function getBalance(address_target=address) {
   console.log("Getting balance for user " + address_target);
-  const balance = await ChickCoin.balances(address_target);
-  console.log("Balance: " + balance.toString());
+  ownedCoins = await ChickCoin.balances(address_target);
+  console.log("Balance: " + ownedCoins.toString());
   // Update UI
-  coinBalance.innerHTML = balance.toString();
-  return balance.toString();
+  coinBalance.innerHTML = ownedCoins.toString();
+  return ownedCoins.toString();
 }
 
 // Purchase a new chicken with the specified name
