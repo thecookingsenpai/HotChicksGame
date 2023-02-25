@@ -176,6 +176,8 @@ async function getUserChickens(address_target=address)  {
   chickenBalance.innerHTML = ownedChickens.length;
   // Get details for each chicken
   for (var i = 1; i <= ownedChickens.length; i++) {
+    let numericId = ownedChickens[i-1]._hex;
+    let decimalId = parseInt(numericId, 16);
     var _chicken = await HotChicks.allChickens(ownedChickens[i-1]);
     console.log("Chicken " + i + ": ");
     console.log(_chicken);
