@@ -168,8 +168,8 @@ async function getUserChickens(address_target=address)  {
   ownedChickens = [];
   // Get the total number of chickens
   var chickens = await ChickCoin.nextChickenId();
-  chickens = chickens.toNumber() - 1;
-  console.log("Total chickens: " + chickens);
+  chickens = chickens.toNumber();
+  console.log("Total chickens: " + (chickens - 1));
   for (var i = 0; i < chickens; i++) {
     // Check if the chicken is owned by the user
     var _owner = await ChickCoin.chickenToUser(i);
