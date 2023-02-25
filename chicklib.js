@@ -8,18 +8,22 @@ var signer;
 var address;
 var network;
 
+// ANCHOR UI Elements
+var connectionButton;
+var addressString;
+
 var supportedNetworks = [80001]
 
 // ANCHOR Initialization
 
 // Load components
 window.addEventListener("load", async () => {
-  var connectionButton = document.getElementById("connectionButton");
+  connectionButton = document.getElementById("connectionButton");
   connectionButton.addEventListener("click", async () => {
     await metamask();
     console.log("Connected to provider");
   });
-  var addressString = document.getElementById("addressString");
+  addressString = document.getElementById("addressString");
 });
 
 // Start the watchdog
