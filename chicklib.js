@@ -3,7 +3,7 @@ console.log("ChickCoinContract", ChickCoinContract);
 
 const contractAddress = "0x3e4551375325627806afCfF31a3A88697f83cC55"; // Use your own contract address
 var ChickCoin;
-var provider;
+var provider = null;
 var signer;
 var address;
 var network;
@@ -16,13 +16,21 @@ var supportedNetworks = [80001]
 window.addEventListener("load", async () => {
   var connectionButton = document.getElementById("connectionButton");
   connectionButton.addEventListener("click", async () => {
-    await connect();
+    await metamask();
     console.log("Connected to provider");
   });
   var addressString = document.getElementById("addressString");
 });
 
 // ANCHOR Methods
+
+async function metamask() {
+  if (provider) {
+    disconnect();
+  } else {
+    connect();
+  }
+}
 
 async function disconnect() {
   // Disconnect from the MetaMask Ethereum provider
@@ -33,15 +41,6 @@ async function disconnect() {
   // Update UI
   connectionButton.innerHTML = "Connect";
   addressString.style.display = "none";
-  // Remove event listener and add new one
-  connectionButton.removeEventListener("click", async () => {
-    await disconnect();
-    console.log("Disconnected from provider");
-  });
-  connectionButton.addEventListener("click", async () => {
-    await connect();
-    console.log("Connected to provider");
-  });
 }
 
 async function connect() {
@@ -79,15 +78,6 @@ async function connect() {
   addressString.innerHTML = address;
   addressString.style.display = "block";
   addressString.style.fontWeight = "bold";
-  // Remove event listener and add new one
-  connectionButton.removeEventListener("click", async () => {
-    await connect();
-    console.log("Connected to provider");
-  });
-  connectionButton.addEventListener("click", async () => {
-    await disconnect();
-    console.log("Disconnected from provider");
-  });
 }
 
 // Get the user's Ethereum account from MetaMask
