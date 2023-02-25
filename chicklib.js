@@ -1,18 +1,27 @@
 import { ethers } from "ethers";
 import ChickCoinContract from "./chickCoinContract.json";
 
-const contractAddress = "0x123abc..."; // Use your own contract address
-const ChickCoin = new ethers.Contract(
-  contractAddress,
-  ChickCoinContract.abi,
-  ethers.provider
-);
+console.log("ChickCoinContract", ChickCoinContract);
+
+const contractAddress = "0x3e4551375325627806afCfF31a3A88697f83cC55"; // Use your own contract address
+var ChickCoin;
+var provider;
+var signer;
 
 async function connect() {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  ethers.provider = provider;
+  provider = new ethers.providers.Web3Provider(window.ethereum);
+  signer = provider.getSigner();
+  console.log("Connected to provider");
+  console.log(provider);
+  console.log(signer);
+  ChickCoin = new ethers.Contract(
+    contractAddress,
+    ChickCoinContract.abi,
+    provider
+  );
   ChickCoin.connect(signer);
+  console.log("Connected to contract");
+  console.log(ChickCoin);
 }
 
 // Get the user's Ethereum account from MetaMask
