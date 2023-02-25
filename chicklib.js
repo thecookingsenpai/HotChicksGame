@@ -138,6 +138,7 @@ async function connect() {
 
 // Get the user's Ethereum account from MetaMask
 async function getUserChickens(address_target=address)  {
+  console.log("Getting chickens for user " + address_target);
   // Reset owned chickens
   ownedChickens = [];
   // Get the total number of chickens
