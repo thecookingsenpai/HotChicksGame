@@ -17,6 +17,7 @@ var connectionButton;
 var addressString;
 var coinBalance;
 var chickenBalance;
+var buyChickenButton;
 
 var supportedNetworks = [80001]
 
@@ -24,6 +25,12 @@ var supportedNetworks = [80001]
 
 // Load components
 window.addEventListener("load", async () => {
+  // Load the buy chicken button
+  buyChickenButton = document.getElementById("buyChickenButton");
+  buyChickenButton.addEventListener("click", async () => {
+    await purchaseChicken();
+    console.log("Routine finished");
+  });
   // Load balances
   coinBalance = document.getElementById("coinBalance");
   chickenBalance = document.getElementById("chickenBalance");
@@ -188,15 +195,24 @@ async function getBalance(address_target=address) {
 }
 
 // Purchase a new chicken with the specified name
-async function purchaseChicken(name) {
-  const account = await getUserAccount();
+async function purchaseChicken() {
+  if (!provider) {
+    Swal.fire({
+      title: 'Error!',
+      text: 'Please connect to a wallet',
+      icon: 'error',
+      confirmButtonText: 'Ok, cool'
+    })
+    return;
+  }
   const fee = await ChickCoin.getChickenFee();
-  const transaction = await ChickCoin.purchaseChicken(name, {
-    value: fee,
-    from: account
+  const transaction = await ChickCoin.becomeChicken({
+    value: fee
   });
-  await transaction.wait();
-  return transaction.hash;
+  console.log(transaction);
+  console.log("Transaction hash: " + transaction.hash);
+  var receipt = await transaction.wait();
+  return receipt
 }
 
 // Use a power-up on the specified chicken
