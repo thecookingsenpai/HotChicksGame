@@ -47,22 +47,26 @@ async function watchdog() {
       return;
     }
     lockWatchdog = true;
-    // Connection status checker
-    if (provider) {
-      var newNetwork = await provider.getNetwork();
-      if (newNetwork.chainId != network.chainId) {
-        disconnect();
-        Swal.fire({
-          title: 'Error!',
-          text: 'Please switch to any of the supported networks: ' + supportedNetworks.join(', '),
-          icon: 'error',
-          confirmButtonText: 'Ok, cool'
-        })
-        return;
+    try {
+        // Connection status checker
+      if (provider) {
+        var newNetwork = await provider.getNetwork();
+        if (newNetwork.chainId != network.chainId) {
+          disconnect();
+          Swal.fire({
+            title: 'Error!',
+            text: 'Please switch to any of the supported networks: ' + supportedNetworks.join(', '),
+            icon: 'error',
+            confirmButtonText: 'Ok, cool'
+          })
+          return;
+        }
+        // If network is supported, and if we are connected, update informations
+        console.log("Updating informations");
+        await getUserChickens();
       }
-      // If network is supported, and if we are connected, update informations
-      console.log("Updating informations");
-      await getUserChickens();
+    } catch (error) {
+      console.log(error);
     }
 
     await sleep(1000);
