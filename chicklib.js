@@ -24,7 +24,13 @@ window.addEventListener("load", async () => {
 
 // ANCHOR Watchdog
 
+var lockWatchdog = false;
 async function watchdog() {
+  if (lockWatchdog) {
+    return;
+  }
+  lockWatchdog = true;
+  // Connection status checker
   if (provider) {
     var newNetwork = await provider.getNetwork();
     if (newNetwork.chainId != network.chainId) {
@@ -35,10 +41,14 @@ async function watchdog() {
         icon: 'error',
         confirmButtonText: 'Ok, cool'
       })
+      return;
     }
+    // If network is supported, and if we are connected, update informations
+    await getUserChickens();
   }
 
   await sleep(1000);
+  lockWatchdog = false;
 }
 
 // ANCHOR Helpers
