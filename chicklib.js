@@ -98,6 +98,8 @@ async function disconnect() {
 }
 
 async function connect() {
+  // Stop watchdog
+  lockWatchdog = true;
   // Connect to the MetaMask Ethereum provider asking for access to the user's accounts
   provider = new ethers.providers.Web3Provider(window.ethereum, "any");
   // Prompt user for account connections
@@ -132,6 +134,8 @@ async function connect() {
   addressString.innerHTML = address;
   addressString.style.display = "block";
   addressString.style.fontWeight = "bold";
+  // Start watchdog
+  lockWatchdog = false;
 }
 
 
