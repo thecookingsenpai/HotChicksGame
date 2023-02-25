@@ -6,6 +6,11 @@ var ChickCoin;
 var provider;
 var signer;
 var address;
+var network;
+
+var supportedNetworks = [80001]
+
+// ANCHOR Initialization
 
 // Load components
 window.addEventListener("load", async () => {
@@ -16,16 +21,30 @@ window.addEventListener("load", async () => {
   });
 });
 
+// ANCHOR Methods
+
 async function connect() {
   // Connect to the MetaMask Ethereum provider asking for access to the user's accounts
   provider = new ethers.providers.Web3Provider(window.ethereum, "any");
   // Prompt user for account connections
   await provider.send("eth_requestAccounts", []);
+  // Check network id and switch if necessary
+  network = await provider.getNetwork();
+  console.log(network);
+  if (!supportedNetworks.includes(network.chainId)) {
+    Swal.fire({
+      title: 'Error!',
+      text: 'Please switch to any of the supported networks: ' + supportedNetworks.join(', '),
+      icon: 'error',
+      confirmButtonText: 'Ok, cool'
+    })
+  }
   signer = provider.getSigner();
   address = await signer.getAddress();
   console.log("Connected to provider");
   console.log(provider);
   console.log(signer);
+  console.log(address);
   ChickCoin = new ethers.Contract(
     contractAddress,
     ChickCoinContract.abi,
