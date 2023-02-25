@@ -24,6 +24,26 @@ window.addEventListener("load", async () => {
 
 // ANCHOR Methods
 
+async function disconnect() {
+  // Disconnect from the MetaMask Ethereum provider
+  provider = null;
+  signer = null;
+  address = null;
+  console.log("Disconnected from provider");
+  // Update UI
+  connectionButton.innerHTML = "Connect";
+  addressString.style.display = "none";
+  // Remove event listener and add new one
+  connectionButton.removeEventListener("click", async () => {
+    await disconnect();
+    console.log("Disconnected from provider");
+  });
+  connectionButton.addEventListener("click", async () => {
+    await connect();
+    console.log("Connected to provider");
+  });
+}
+
 async function connect() {
   // Connect to the MetaMask Ethereum provider asking for access to the user's accounts
   provider = new ethers.providers.Web3Provider(window.ethereum, "any");
@@ -59,6 +79,15 @@ async function connect() {
   addressString.innerHTML = address;
   addressString.style.display = "block";
   addressString.style.fontWeight = "bold";
+  // Remove event listener and add new one
+  connectionButton.removeEventListener("click", async () => {
+    await connect();
+    console.log("Connected to provider");
+  });
+  connectionButton.addEventListener("click", async () => {
+    await disconnect();
+    console.log("Disconnected from provider");
+  });
 }
 
 // Get the user's Ethereum account from MetaMask
