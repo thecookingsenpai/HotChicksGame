@@ -134,6 +134,7 @@ async function connect() {
   addressString.style.fontWeight = "bold";
 }
 
+
 // ANCHOR Contract Methods
 
 // Get the user's Ethereum account from MetaMask
