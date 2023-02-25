@@ -181,6 +181,12 @@ async function getUserChickens(address_target=address)  {
   console.log(ownedChickens);
   // Update UI
   chickenBalance.innerHTML = ownedChickens.length;
+  // Get details for each chicken
+  for (var i = 1; i <= ownedChickens.length; i++) {
+    var _chicken = await ChickCoin.allChickens(ownedChickens[i]);
+    console.log("Chicken " + i + ": ");
+    console.log(_chicken);
+  }
   return ownedChickens;
 }
 
