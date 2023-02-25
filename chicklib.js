@@ -8,6 +8,9 @@ var signer;
 var address;
 var network;
 
+// ANCHOR Statuses
+var ownedChickens = [];
+
 // ANCHOR UI Elements
 var connectionButton;
 var addressString;
@@ -135,10 +138,22 @@ async function connect() {
 
 // Get the user's Ethereum account from MetaMask
 async function getUserChickens(address_target=address)  {
-  var chickens = await ChickCoin.userChickens(address_target);
+  // Reset owned chickens
+  ownedChickens = [];
+  // Get the total number of chickens
+  var chickens = await ChickCoin.nextChickenId();
+  chickens = chickens.toNumber() - 1;
+  console.log("Total chickens: " + chickens);
+  for (var i = 0; i < chickens; i++) {
+    // Check if the chicken is owned by the user
+    var _owner = await ChickCoin.chickenToUser(i);
+    if (_owner == address_target) {
+      ownedChickens.push(i);
+    }
+  }
   console.log("Chickens for user " + address_target + ": ");
-  console.log(chickens);
-  return chickens;
+  console.log(ownedChickens);
+  return ownedChickens;
 }
 
 // Get the user's balance of tokens
