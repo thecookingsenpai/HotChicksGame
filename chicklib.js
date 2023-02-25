@@ -131,15 +131,15 @@ async function connect() {
   addressString.style.fontWeight = "bold";
 }
 
+// ANCHOR Contract Methods
+
 // Get the user's Ethereum account from MetaMask
-async function getUserChickens() {
-  var chickens = await ChickCoin.userChickens();
-  console.log("Chickens for user " + address + ": ");
+async function getUserChickens(address_target=address)  {
+  var chickens = await ChickCoin.userChickens(address_target);
+  console.log("Chickens for user " + address_target + ": ");
   console.log(chickens);
   return chickens;
 }
-
-// ANCHOR Contract Methods
 
 // Get the user's balance of tokens
 async function getBalance() {
