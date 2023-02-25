@@ -1,5 +1,4 @@
 import { ethers } from "ethers";
-import ChickCoinContract from "./chickCoinContract.json";
 
 console.log("ChickCoinContract", ChickCoinContract);
 
